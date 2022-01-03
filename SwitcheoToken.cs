@@ -31,8 +31,8 @@ namespace SwitcheoToken
         #endregion
 
         //initial operator
-        [InitialValue("NYxb4fSZVKAz8YsgaPK2WkT3KcAE9b3Vag", ContractParameterType.Hash160)]
-        private static readonly UInt160 Owner = default;
+        [InitialValue("NUVHSYuSqAHHNpVyeVR2KkggHNiw5DD2nN", ContractParameterType.Hash160)]
+        private static readonly UInt160 InitialOwner = default;
         private static readonly byte[] SupplyKey = "supply".ToByteArray();
         private static readonly byte[] OwnerKey = "owner".ToByteArray();
         private static readonly byte[] PendingOwnerKey = "pendingOwner".ToByteArray();
@@ -47,7 +47,7 @@ namespace SwitcheoToken
         public static void _deploy(object data, bool update)
         {
             if (update) return;
-            ContractMap.Put(OwnerKey, Owner);
+            ContractMap.Put(OwnerKey, InitialOwner);
         }
 
         public static UInt160 GetOwner() => (UInt160)ContractMap.Get(OwnerKey);
@@ -71,8 +71,8 @@ namespace SwitcheoToken
 
         public static bool Transfer(UInt160 from, UInt160 to, BigInteger amount, object data = null)
         {
-            Assert(!from.IsValid, "The from argument is invalid.");
-            Assert(to is null || !to.IsValid, "The to argument is invalid.");
+            Assert(from.IsValid, "The from argument is invalid.");
+            Assert(to is null || to.IsValid, "The to argument is invalid.");
             Assert(amount >= 0, "The amount argument must be a positive number.");
             Assert(Runtime.CheckWitness(from) || from.Equals(Runtime.CallingScriptHash), "No authorization.");
 
@@ -102,8 +102,6 @@ namespace SwitcheoToken
         private static bool IsOwner() => Runtime.CheckWitness(GetOwner());
 
         private static bool IsPendingOwner() => Runtime.CheckWitness(GetPendingOwner());
-
-        private static bool IsBridge(UInt160 key) => (string)BridgeMap.Get(key) == "1";
 
         private static void IncreaseSupply(BigInteger value)
         {
@@ -153,12 +151,17 @@ namespace SwitcheoToken
 
         #region Operator Methods
 
+        public static bool IsBridge(UInt160 key) => (string)BridgeMap.Get(key) == "1";
+
         public static bool AddBridge(UInt160 address)
         {
             Assert(address.IsValid, "The address is invalid.");
             Assert(IsOwner(), "No authorization.");
+            Assert(!IsBridge(address), "The address is already a bridge.");
 
             BridgeMap.Put(address, "1");
+
+            Notify("AddBridge", address, "Bridge added.");
             return true;
         }
 
@@ -169,6 +172,8 @@ namespace SwitcheoToken
             Assert(IsBridge(address), "The address is not a bridge.");
 
             BridgeMap.Delete(address);
+
+            Notify("RemoveBridge", address, "Bridge removed.");
             return true;
         }
 
@@ -178,6 +183,8 @@ namespace SwitcheoToken
             Assert(IsOwner(), "No authorization.");
 
             ContractMap.Put(PendingOwnerKey, newOwner);
+
+            Notify("InitiateOwnershipTransfer", newOwner, "Pending owner added.");
             return true;
         }
 
@@ -186,6 +193,10 @@ namespace SwitcheoToken
             Assert(IsPendingOwner(), "No authorization.");
 
             ContractMap.Put(OwnerKey, GetPendingOwner());
+            ContractMap.Delete(PendingOwnerKey);
+
+
+            Notify("AcceptOwnershipTransfer", GetOwner(), "Owner changed.");
             return true;
         }
 
