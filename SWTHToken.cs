@@ -10,12 +10,12 @@ using System;
 using System.ComponentModel;
 using System.Numerics;
 
-namespace SwitcheoToken
+namespace SWTHToken
 {
-    [DisplayName("Switcheo Token")]
+    [DisplayName("SWTH Token")]
     [ManifestExtra("Author", "Switcheo Labs")]
     [ManifestExtra("Email", "engineering@switcheo.network")]
-    [ManifestExtra("Description", "This is the NEP-17 contract for Switcheo Token on Neo 3.0")]
+    [ManifestExtra("Description", "This is the NEP-17 contract for SWTH Token on Neo 3.0")]
     [SupportedStandards("NEP-17")]
     [ContractPermission("*")]
     public class SwitcheoToken : SmartContract
@@ -31,7 +31,7 @@ namespace SwitcheoToken
         #endregion
 
         //initial operator
-        [InitialValue("NUVHSYuSqAHHNpVyeVR2KkggHNiw5DD2nN", ContractParameterType.Hash160)]
+        [InitialValue("NUmfDHK5qeaHhsLwjB5quxAHCL7zsx2VcT", ContractParameterType.Hash160)]
         private static readonly UInt160 InitialOwner = default;
         private static readonly byte[] SupplyKey = "supply".ToByteArray();
         private static readonly byte[] OwnerKey = "owner".ToByteArray();

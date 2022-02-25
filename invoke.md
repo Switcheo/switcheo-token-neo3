@@ -18,7 +18,7 @@ list address
 ## Add Bridge
 
 ```bash
-invoke 0x285b332bc0323bc334987bd4735fb39cc3269e20 addBridge [{"type":"Hash160","value":"921fd44af69e335e6659799bcbd6d2616a078c11"}] NUVHSYuSqAHHNpVyeVR2KkggHNiw5DD2nN
+invoke 0x285b332bc0323bc334987bd4735fb39cc3269e20 addBridge [{"type":"Hash160","value":"921fd44af69e335e6659799bcbd6d2616a078c11"}] NLu6JvSgqz8h3wobdiK5ZGuoMLSQeLoNs6
 ```
 
 ## Mint & Transfer
@@ -77,5 +77,5 @@ invoke 0x285b332bc0323bc334987bd4735fb39cc3269e20 transfer [{"type":"Hash160","v
 
 invoke 0x285b332bc0323bc334987bd4735fb39cc3269e20 addBridge [{"type":"Hash160","value":"921fd44af69e335e6659799bcbd6d2616a078c11"}] NLu6JvSgqz8h3wobdiK5ZGuoMLSQeLoNs6
 
-invoke 0x285b332bc0323bc334987bd4735fb39cc3269e20 transfer [{"type":"Hash160","value":"921fd44af69e335e6659799bcbd6d2616a078c11"},{"type":"Hash160","value":"f035cd377ec59154494d1bd64babeb2901a8cd0a"},{"type":"Integer","value":"4200000000"},{"type":"Boolean","value":false}] NLu6JvSgqz8h3wobdiK5ZGuoMLSQeLoNs6 NMWkRQAjmeLuV9PjPBbFDDLgppV3rXovzn
+invoke 0x285b332bc0323bc334987bd4735fb39cc3269e20 transfer [{"type":"Hash160","value":"921fd44af69e335e6659799bcbd6d2616a078c11"},{"type":"Hash160","value":"f035cd377ec59154494d1bd64babeb2901a8cd0a"},{"type":"Integer","value":"1000000000000"},{"type":"Boolean","value":false}] NLu6JvSgqz8h3wobdiK5ZGuoMLSQeLoNs6 NMWkRQAjmeLuV9PjPBbFDDLgppV3rXovzn
 ```
